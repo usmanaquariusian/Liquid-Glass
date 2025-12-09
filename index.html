@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liquid Glass - NAFFCO</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,79 +22,86 @@
         <h1>NAFFCO - PASSION TO PROTECT</h1>
     </div>
 
-    <!-- Main Content with Swiper Cards on the Right -->
-    <div class="main-content">
-        <div class="content-wrapper">
-            <!-- Left empty space (40%) -->
-            <div class="left-space"></div>
-            
-            <!-- Right cards section (60%) -->
-            <div class="cards-section">
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        <!-- Card 1 -->
-                        <div class="swiper-slide">
-                            <div class="glass-card">
-                                <div class="card-image-container">
-                                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/f/a/falcon-4x4-1.jpg?w=800&h=800&fit=crop" class="card-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="card-title">VEHICLE</h3>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Stacking Cards Container -->
+    <div class="stack-container">
+        <div class="cards-stack" id="cardsStack">
+            <!-- Card 1 - Active by default -->
+            <div class="stack-card active" data-index="0">
+                <div class="card-title-container">
+                    <h3 class="card-title">VEHICLE</h3>
+                </div>
+                <div class="card-image-container">
+                    <div class="image-curtain"></div>
+                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/f/a/falcon-4x4-1.jpg?w=800&h=800&fit=crop" class="card-image">
+                </div>
+            </div>
 
-                        <!-- Card 2 -->
-                        <div class="swiper-slide">
-                            <div class="glass-card">
-                                <div class="card-image-container">
-                                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-falcon-6x6-1.jpg?w=800&h=800&fit=crop" class="card-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="card-title">SPORTS CAR</h3>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Card 2 -->
+            <div class="stack-card" data-index="1">
+                <div class="card-title-container">
+                    <h3 class="card-title">SPORTS CAR</h3>
+                </div>
+                <div class="card-image-container">
+                    <div class="image-curtain"></div>
+                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-falcon-6x6-1.jpg?w=800&h=800&fit=crop" class="card-image">
+                </div>
+            </div>
 
-                        <!-- Card 3 -->
-                        <div class="swiper-slide">
-                            <div class="glass-card">
-                                <div class="card-image-container">
-                                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-custom-built-8x8-inside.jpg?w=800&h=800&fit=crop" class="card-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="card-title">LUXURY SUV PREMIUM EDITION new model</h3>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Card 3 -->
+            <div class="stack-card" data-index="2">
+                <div class="card-title-container">
+                    <h3 class="card-title">LUXURY SUV PREMIUM EDITION NEW MODEL</h3>
+                </div>
+                <div class="card-image-container">
+                    <div class="image-curtain"></div>
+                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-custom-built-8x8-inside.jpg?w=800&h=800&fit=crop" class="card-image">
+                </div>
+            </div>
 
-                        <!-- Card 4 -->
-                        <div class="swiper-slide">
-                            <div class="glass-card">
-                                <div class="card-image-container">
-                                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-built-4x4-inside.jpg?w=800&h=800&fit=crop" class="card-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="card-title">CLASSIC</h3>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Card 4 -->
+            <div class="stack-card" data-index="3">
+                <div class="card-title-container">
+                    <h3 class="card-title">CLASSIC</h3>
+                </div>
+                <div class="card-image-container">
+                    <div class="image-curtain"></div>
+                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-built-4x4-inside.jpg?w=800&h=800&fit=crop" class="card-image">
+                </div>
+            </div>
 
-                        <!-- Card 5 -->
-                        <div class="swiper-slide">
-                            <div class="glass-card">
-                                <div class="card-image-container">
-                                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-6x6-inside.jpg?w=800&h=800&fit=crop" class="card-image">
-                                </div>
-                                <div class="card-content">
-                                    <h3 class="card-title">ELECTRIC FUTURE</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Card 5 -->
+            <div class="stack-card" data-index="4">
+                <div class="card-title-container">
+                    <h3 class="card-title">ELECTRIC FUTURE</h3>
+                </div>
+                <div class="card-image-container">
+                    <div class="image-curtain"></div>
+                    <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-6x6-inside.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
         </div>
+        
+        <!-- Glass Navigation Buttons -->
+        <fieldset class="stack-nav">
+            <legend class="stack-nav__legend">Navigate</legend>
+            <button class="stack-nav__btn up" onclick="cardDeck.prevCard()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path fill="var(--c)" d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14l-6-6z"/>
+                </svg>
+            </button>
+            <button class="stack-nav__btn down" onclick="cardDeck.nextCard()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path fill="var(--c)" d="M12 16l6-6-1.41-1.41L12 13.17l-4.59-4.58L6 10l6 6z"/>
+                </svg>
+            </button>
+            <div class="stack-nav__filter">
+                <svg>
+                    <filter id="stackNav" primitiveUnits="objectBoundingBox">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
+                    </filter>
+                </svg>
+            </div>
+        </fieldset>
     </div>
 
     <!-- Bottom Navigation Section -->
@@ -166,36 +172,7 @@
         </fieldset>
     </div>
 
-    <!-- Include JavaScript files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    <script src="stacking-cards.js"></script>
     <script src="javascript.js"></script>
-    <script>
-        // Initialize Swiper
-        const swiper = new Swiper('.swiper', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            centeredSlides: true,
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
-            },
-             autoplay:
-             {
-                  delay: 3500,
-                  disableOnInteraction: false,
-              },
-        });
-    </script>
 </body>
 </html>

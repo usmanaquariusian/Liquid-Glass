@@ -31,7 +31,6 @@ body {
   font-size: 20px;
   font-family: "EuroBlack", sans-serif;
   font-optical-sizing: auto;
-  /* background: var(--c-bg) url('bg.mp4') center center / cover no-repeat fixed; */
   color: var(--c-content);
   min-height: 100vh;
   margin: 0;
@@ -41,14 +40,14 @@ body {
 
 /* Video background */
 .video-bg {
-  position: fixed;   /* fixed to mimic background-attachment: fixed */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: -1;       /* behind all content */
-  background: var(--c-bg); /* fallback background color */
+  z-index: -1;
+  background: var(--c-bg);
 }
 
 .video-bg video {
@@ -63,8 +62,7 @@ body {
   object-fit: cover;
 }
 
-
-/* Top Text Container with Metallic Silver Gradient */
+/* Top Text Container */
 .top-text {
   position: fixed;
   z-index: 10;
@@ -115,67 +113,41 @@ body {
   }
 }
 
-/* Main Content Area with Right-Aligned Swiper Cards */
-.main-content {
+/* Stack Container - Fixed on right side, properly positioned */
+.stack-container {
+  position: fixed;
+  top: 50%;
+  right: 60px;
+  transform: translateY(-50%);
+  width: 750px; /* This can increase the space between the cards*/
+  height: 600px;
+  z-index: 5;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  padding: 150px 0 200px;
-  box-sizing: border-box;
+  gap: 40px;
 }
 
-.content-wrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
-/* Left empty space (40%) */
-.left-space {
-  width: 40%;
-  height: 100%;
-  flex-shrink: 0;
-}
-
-/* Right cards section (60%) */
-.cards-section {
-  width: 60%;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 40px 0 20px;
-  box-sizing: border-box;
-}
-
-/* Swiper Container */
-.swiper {
-  width: 100%;
-  height: 500px;
-  max-width: 1200px;
-}
-
-.swiper-wrapper {
-  align-items: center;
-}
-
-.swiper-slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-}
-
-/* Glass Cards */
-.glass-card {
-  width: 100%;
-  max-width: 320px;
+/* Cards Stack - Wider horizontal cards */
+.cards-stack {
+  position: relative;
+  width: 650px;
   height: 400px;
-  background-color: color-mix(in srgb, var(--c-glass) 2%, transparent);
+}
+
+/* Stack Card - Wider horizontal design */
+.stack-card {
+  position: absolute;
+  width: 650px;
+  height: 400px;
+  background-color: color-mix(in srgb, var(--c-glass) 8%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 25px;
+  overflow: hidden;
+  cursor: grab;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  pointer-events: auto;
   box-shadow: 
     inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
     inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
@@ -187,15 +159,14 @@ body {
     inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
     0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
     0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-  border-radius: 28px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
+  will-change: transform, height, opacity;
 }
 
-.glass-card:hover {
+/* Active Card - Full height, on top */
+.stack-card.active {
+  height: 400px;
+  z-index: 100;
+  transform: translateY(0) scale(1) !important;
   box-shadow: 
     inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
     inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
@@ -209,8 +180,179 @@ body {
     0px 10px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 10%), transparent);
 }
 
-/* Light reflections */
-.glass-card::before {
+/* Stacked Cards - No spacing, directly behind each other */
+.stack-card.stacked {
+  height: 400px; /* Same height as active card */
+  opacity: 1;
+  z-index: calc(100 - var(--stack-index)); /* Lower z-index for stacked cards */
+  cursor: pointer;
+  border-radius: 25px;
+  transform: translateY(calc(var(--stack-index) * -5px)) scale(1) !important; /* NO spacing - just 1px overlap */
+  background-color: color-mix(in srgb, var(--c-glass) 8%, transparent); /* Same as active card */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 5%), transparent),
+    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
+    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent), 
+    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent), 
+    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent), 
+    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent), 
+    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 5%), transparent), 
+    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 5%), transparent), 
+    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 3%), transparent);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.85); /* Slightly darker for depth */
+}
+
+/* Card Title Container - Only visible on active card */
+.stack-card .card-title-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  border-radius: 25px 25px 0 0;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.stack-card.stacked .card-title-container {
+  opacity: 0; /* Hide title on stacked cards */
+  pointer-events: none;
+}
+
+.stack-card .card-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-family: "EuroBlack", "DM Sans", sans-serif;
+}
+
+/* Card Image Container */
+.stack-card .card-image-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 70px);
+  overflow: hidden;
+  border-radius: 0 0 25px 25px;
+  z-index: 1;
+}
+
+.stack-card.active .card-image-container {
+  height: calc(100% - 70px);
+}
+
+.stack-card.stacked .card-image-container {
+  opacity: 0.3; /* Very low opacity for stacked card images */
+  pointer-events: none;
+  height: calc(100% - 70px);
+}
+
+.stack-card .card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stack-card.active:hover .card-image {
+  transform: scale(1.08);
+}
+
+/* Image Curtain - Liquid Glass Curtain effect */
+.image-curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  z-index: 2;
+  transform: translateY(0%);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  will-change: transform;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
+    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
+    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 20%), transparent), 
+    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 30%), transparent), 
+    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 30%), transparent), 
+    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 20%), transparent);
+}
+
+.stack-card.active .image-curtain {
+  transform: translateY(-100%);
+}
+
+.stack-card.stacked .image-curtain {
+  transform: translateY(0%);
+}
+
+
+/* Optional: Add a subtle shimmer to the curtain */
+.image-curtain::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: curtainShimmer 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes curtainShimmer {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+
+
+
+/* Light reflections - only for active card */
+.stack-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -218,25 +360,24 @@ body {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.25) 0%, transparent 50%);
-  border-radius: 28px;
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.6) 0%, transparent 70%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
+    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.45) 0%, transparent 70%);
+  border-radius: 25px;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+  z-index: 1;
 }
 
-.card-image-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px 24px 0 0;
-  min-height: 0;
+/* Reduce reflections on stacked cards */
+.stack-card.stacked::before {
+  opacity: 0.3;
 }
 
-/* Shimmer effect for the card image */
-.card-image-container::before {
+/* Shimmer effect for active card */
+.stack-card.active .card-image-container::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -246,12 +387,12 @@ body {
   background: linear-gradient(
     45deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.15) 50%,
     transparent 70%
   );
   transform: rotate(45deg);
-  animation: shimmer 3s infinite;
-  z-index: 2;
+  animation: shimmer 4s infinite;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -260,46 +401,85 @@ body {
   100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.glass-card:hover .card-image {
-  transform: scale(1.05);
-}
-
-.card-content {
-  padding: 10px;
+/* Stack Navigation Buttons */
+.stack-nav {
   position: relative;
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 70px;
+  height: 140px;
+  box-sizing: border-box;
+  padding: 10px;
+  border: none;
+  border-radius: 99em;
+  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+}
+
+.stack-nav__legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.stack-nav__btn {
+  --c: var(--c-content);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 85px;
-  max-height: 85px;
-  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
 }
 
-.card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  text-align: center;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  line-height: 1.4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.stack-nav__btn svg {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
 }
 
-/* Bottom Section Container */
+.stack-nav__btn:hover {
+  --c: var(--c-action);
+}
+
+.stack-nav__btn:hover svg {
+  transform: scale(1.2);
+}
+
+.stack-nav__filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: -1;
+}
+
+/* Bottom Navigation Section */
 .bottom-section {
   position: fixed;
   z-index: 10;
@@ -497,22 +677,18 @@ body {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .cards-section {
-    width: 100%;
-    padding: 0 30px;
+  .stack-container {
+    right: 30px;
+    width: 600px;
+    gap: 30px;
   }
   
-  .left-space {
-    display: none;
+  .cards-stack {
+    width: 450px;
   }
   
-  .swiper {
-    height: 450px;
-  }
-  
-  .glass-card {
-    max-width: 260px;
-    height: 420px;
+  .stack-card {
+    width: 450px;
   }
 }
 
@@ -527,21 +703,36 @@ body {
     font-size: 1.8rem;
   }
   
-  .main-content {
-    padding: 120px 0 180px;
+  .stack-container {
+    right: 20px;
+    width: 500px;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
   }
   
-  .cards-section {
-    padding: 0 20px;
+  .cards-stack {
+    width: 400px;
+    height: 350px;
   }
   
-  .swiper {
-    height: 400px;
+  .stack-card {
+    width: 400px;
+    height: 250px;
   }
   
-  .glass-card {
-    max-width: 240px;
-    height: 380px;
+  .stack-card.active {
+    height: 350px;
+  }
+  
+  .stack-card .card-title {
+    font-size: 18px;
+  }
+  
+  .stack-nav {
+    flex-direction: row;
+    width: 140px;
+    height: 70px;
   }
   
   .bottom-section {
@@ -575,25 +766,27 @@ body {
     font-size: 1.5rem;
   }
   
-  .main-content {
-    padding: 100px 0 160px;
+  .stack-container {
+    right: 15px;
+    width: 400px;
   }
   
-  .cards-section {
-    padding: 0 15px;
+  .cards-stack {
+    width: 350px;
+    height: 300px;
   }
   
-  .swiper {
-    height: 350px;
+  .stack-card {
+    width: 350px;
+    height: 220px;
   }
   
-  .glass-card {
-    max-width: 220px;
-    height: 350px;
+  .stack-card.active {
+    height: 300px;
   }
   
-  .card-title {
-    font-size: 14px;
+  .stack-card .card-title {
+    font-size: 16px;
   }
   
   .bottom-section {
