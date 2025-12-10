@@ -10,7 +10,7 @@
 
     <!-- Video Background -->
     <div class="video-bg">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline preload="auto">
             <source src="bg.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -31,7 +31,6 @@
                     <h3 class="card-title">VEHICLE</h3>
                 </div>
                 <div class="card-image-container">
-                    <div class="image-curtain"></div>
                     <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/f/a/falcon-4x4-1.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
@@ -42,7 +41,6 @@
                     <h3 class="card-title">SPORTS CAR</h3>
                 </div>
                 <div class="card-image-container">
-                    <div class="image-curtain"></div>
                     <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-falcon-6x6-1.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
@@ -53,7 +51,6 @@
                     <h3 class="card-title">LUXURY SUV PREMIUM EDITION NEW MODEL</h3>
                 </div>
                 <div class="card-image-container">
-                    <div class="image-curtain"></div>
                     <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-custom-built-8x8-inside.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
@@ -64,7 +61,6 @@
                     <h3 class="card-title">CLASSIC</h3>
                 </div>
                 <div class="card-image-container">
-                    <div class="image-curtain"></div>
                     <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-built-4x4-inside.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
@@ -75,7 +71,6 @@
                     <h3 class="card-title">ELECTRIC FUTURE</h3>
                 </div>
                 <div class="card-image-container">
-                    <div class="image-curtain"></div>
                     <img src="https://www.naffco.com/media/catalog/product/cache/f56d9f1f3536ee7c294fc22514fc73e2/a/r/arff-commercial-6x6-inside.jpg?w=800&h=800&fit=crop" class="card-image">
                 </div>
             </div>
@@ -94,13 +89,6 @@
                     <path fill="var(--c)" d="M12 16l6-6-1.41-1.41L12 13.17l-4.59-4.58L6 10l6 6z"/>
                 </svg>
             </button>
-            <div class="stack-nav__filter">
-                <svg>
-                    <filter id="stackNav" primitiveUnits="objectBoundingBox">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
-                    </filter>
-                </svg>
-            </div>
         </fieldset>
     </div>
 
@@ -125,17 +113,6 @@
                     </svg>
                 </a>
             </label>
-            <div class="switcher__filter">
-                <svg>
-                    <filter id="switcher" primitiveUnits="objectBoundingBox">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
-                    </filter>
-                    
-                    <filter id="toggler" primitiveUnits="objectBoundingBox">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
-                    </filter>
-                </svg>
-            </div>
         </fieldset>
 
         <p class="cta-text">VEHICLES DIVISION / FIRE TRUCK / AIRCRAFT RESCUE / CUSTOM / 4X4</p>
@@ -158,17 +135,6 @@
                     </svg>
                 </a>
             </label>
-            <div class="switcher__filter">
-                <svg>
-                    <filter id="switcher2" primitiveUnits="objectBoundingBox">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
-                    </filter>
-                    
-                    <filter id="toggler2" primitiveUnits="objectBoundingBox">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" result="blur"/>
-                    </filter>
-                </svg>
-            </div>
         </fieldset>
     </div>
 

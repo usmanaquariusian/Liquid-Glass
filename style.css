@@ -26,7 +26,6 @@ body {
   --c-bg: #E8E8E9;
   --glass-reflex-dark: 1;
   --glass-reflex-light: 1;
-  --saturation: 150%;
   
   font-size: 20px;
   font-family: "EuroBlack", sans-serif;
@@ -36,9 +35,11 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Video background */
+/* Video background - OPTIMIZED */
 .video-bg {
   position: fixed;
   top: 0;
@@ -48,6 +49,7 @@ body {
   overflow: hidden;
   z-index: -1;
   background: var(--c-bg);
+  transform: translateZ(0);
 }
 
 .video-bg video {
@@ -58,8 +60,9 @@ body {
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(0);
   object-fit: cover;
+  -webkit-transform-style: preserve-3d;
 }
 
 /* Top Text Container */
@@ -118,8 +121,8 @@ body {
   position: fixed;
   top: 50%;
   right: 60px;
-  transform: translateY(-50%);
-  width: 750px; /* This can increase the space between the cards*/
+  transform: translateY(-50%) translateZ(0);
+  width: 750px;
   height: 600px;
   z-index: 5;
   display: flex;
@@ -134,77 +137,45 @@ body {
   height: 400px;
 }
 
-/* Stack Card - Wider horizontal design */
+/* Stack Card - SIMPLIFIED for performance */
 .stack-card {
   position: absolute;
   width: 650px;
   height: 400px;
-  background-color: color-mix(in srgb, var(--c-glass) 8%, transparent);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(187, 187, 188, 0.08); /* Simplified from color-mix */
   border-radius: 25px;
   overflow: hidden;
   cursor: grab;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s ease, opacity 0.6s ease;
   transform-origin: center;
   pointer-events: auto;
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-  will-change: transform, height, opacity;
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Active Card - Full height, on top */
 .stack-card.active {
-  height: 400px;
   z-index: 100;
   transform: translateY(0) scale(1) !important;
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 15%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 25%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 25%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 15%), transparent), 
-    0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 12%), transparent), 
-    0px 10px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 10%), transparent);
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* Stacked Cards - No spacing, directly behind each other */
 .stack-card.stacked {
-  height: 400px; /* Same height as active card */
-  opacity: 1;
-  z-index: calc(100 - var(--stack-index)); /* Lower z-index for stacked cards */
+  z-index: calc(100 - var(--stack-index));
   cursor: pointer;
   border-radius: 25px;
-  transform: translateY(calc(var(--stack-index) * -5px)) scale(1) !important; /* NO spacing - just 1px overlap */
-  background-color: color-mix(in srgb, var(--c-glass) 8%, transparent); /* Same as active card */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateY(calc(var(--stack-index) * -5px)) scale(1) !important;
+  background: rgba(187, 187, 188, 0.06);
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 5%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 5%), transparent), 
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 5%), transparent), 
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 3%), transparent);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: brightness(0.85); /* Slightly darker for depth */
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  filter: brightness(0.9);
 }
 
 /* Card Title Container - Only visible on active card */
@@ -214,10 +185,7 @@ body {
   left: 0;
   width: 100%;
   height: 70px;
-  background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(187, 187, 188, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -226,11 +194,11 @@ body {
   border-radius: 25px 25px 0 0;
   z-index: 2;
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .stack-card.stacked .card-title-container {
-  opacity: 0; /* Hide title on stacked cards */
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -242,7 +210,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   text-align: center;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -252,7 +220,7 @@ body {
   font-family: "EuroBlack", "DM Sans", sans-serif;
 }
 
-/* Card Image Container */
+/* Card Image Container - OPTIMIZED */
 .stack-card .card-image-container {
   position: absolute;
   bottom: 0;
@@ -264,12 +232,8 @@ body {
   z-index: 1;
 }
 
-.stack-card.active .card-image-container {
-  height: calc(100% - 70px);
-}
-
 .stack-card.stacked .card-image-container {
-  opacity: 0.3; /* Very low opacity for stacked card images */
+  opacity: 0.4;
   pointer-events: none;
   height: calc(100% - 70px);
 }
@@ -278,130 +242,15 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1s ease;
+  transform: translateZ(0);
 }
 
 .stack-card.active:hover .card-image {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
-/* Image Curtain - Liquid Glass Curtain effect */
-.image-curtain {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
-  backdrop-filter: blur(30px) saturate(200%);
-  -webkit-backdrop-filter: blur(30px) saturate(200%);
-  z-index: 2;
-  transform: translateY(0%);
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  will-change: transform;
-  border-radius: 0 0 25px 25px;
-  box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 20%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 30%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 30%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--c-dark) * 20%), transparent);
-}
-
-.stack-card.active .image-curtain {
-  transform: translateY(-100%);
-}
-
-.stack-card.stacked .image-curtain {
-  transform: translateY(0%);
-}
-
-
-/* Optional: Add a subtle shimmer to the curtain */
-.image-curtain::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
-  animation: curtainShimmer 3s infinite;
-  pointer-events: none;
-}
-
-@keyframes curtainShimmer {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(50%);
-  }
-}
-
-
-
-
-/* Light reflections - only for active card */
-.stack-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.6) 0%, transparent 70%),
-    radial-gradient(circle at top right, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
-    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.45) 0%, transparent 70%);
-  border-radius: 25px;
-  pointer-events: none;
-  opacity: 0.7;
-  mix-blend-mode: overlay;
-  z-index: 1;
-}
-
-/* Reduce reflections on stacked cards */
-.stack-card.stacked::before {
-  opacity: 0.3;
-}
-
-/* Shimmer effect for active card */
-.stack-card.active .card-image-container::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.15) 50%,
-    transparent 70%
-  );
-  transform: rotate(45deg);
-  animation: shimmer 4s infinite;
-  z-index: 1;
-  pointer-events: none;
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-}
-
-/* Stack Navigation Buttons */
+/* Stack Navigation Buttons - OPTIMIZED */
 .stack-nav {
   position: relative;
   display: flex;
@@ -414,20 +263,11 @@ body {
   padding: 10px;
   border: none;
   border-radius: 99em;
-  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(187, 187, 188, 0.12);
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateZ(0);
 }
 
 .stack-nav__legend {
@@ -456,6 +296,7 @@ body {
   cursor: pointer;
   padding: 0;
   transition: all 0.3s ease;
+  transform: translateZ(0);
 }
 
 .stack-nav__btn svg {
@@ -469,14 +310,11 @@ body {
 }
 
 .stack-nav__btn:hover svg {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .stack-nav__filter {
-  position: absolute;
-  width: 0;
-  height: 0;
-  z-index: -1;
+  display: none;
 }
 
 /* Bottom Navigation Section */
@@ -524,25 +362,11 @@ body {
   border: none;
   border-radius: 99em;
   font-size: var(--fz);
-  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(187, 187, 188, 0.12);
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-    inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-    inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-  transition: 
-    background-color 400ms 
-      cubic-bezier(1, 0.0, 0.4, 1),
-    box-shadow 400ms
-      cubic-bezier(1, 0.0, 0.4, 1);
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   --toggle-translate: 0px;
   --toggle-width: 68px;
 }
@@ -581,14 +405,11 @@ body {
 .switcher__icon {
   display: block;
   width: 100%;
-  transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+  transition: scale 0.2s ease;
 }
 
 .switcher__filter {
-  position: absolute;
-  width: 0;
-  height: 0;
-  z-index: -1;
+  display: none;
 }
 
 .switcher__option {
@@ -603,7 +424,7 @@ body {
   box-sizing: border-box;
   border-radius: 99em;
   opacity: 1;
-  transition: all 160ms;
+  transition: all 0.16s;
   text-decoration: none;
   color: inherit;
 }
@@ -624,7 +445,7 @@ body {
 }
 
 .switcher__option:hover .switcher__icon {
-  scale: 1.2;
+  scale: 1.1;
 }
 
 .switcher__option:has(input:checked) {
@@ -645,33 +466,23 @@ body {
   width: var(--toggle-width);
   height: calc(100% - 10px);
   border-radius: 99em;
-  background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+  background: rgba(187, 187, 188, 0.36);
   z-index: -1;
   transform: translateX(var(--toggle-translate));
   transform-origin: var(--toggle-origin, left);
   box-shadow: 
-    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-    inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-    inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-    inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-    inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-    inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-    0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    0 1px 2px rgba(0, 0, 0, 0.1);
   transition: 
-    background-color 400ms 
-      cubic-bezier(1, 0.0, 0.4, 1),
-    box-shadow 400ms
-      cubic-bezier(1, 0.0, 0.4, 1),
-    transform 400ms 
-      cubic-bezier(1, 0.0, 0.4, 1),
-    width 400ms
-      cubic-bezier(1, 0.0, 0.4, 1);
-  animation: scaleToggle 440ms ease;
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease,
+    width 0.3s ease;
+  animation: scaleToggle 0.4s ease;
 }
 
 @keyframes scaleToggle {
   0% { scale: 1 1; }
-  50% { scale: 1.15 1; }
+  50% { scale: 1.1 1; }
   100% { scale: 1 1; }
 }
 
@@ -796,5 +607,16 @@ body {
   
   .cta-text {
     font-size: 18px;
+  }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+  .stack-card {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  
+  .stack-card .card-image {
+    transition: transform 0.8s ease;
   }
 }
