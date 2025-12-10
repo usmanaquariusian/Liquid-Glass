@@ -171,8 +171,8 @@ body {
 /* Glass Cards */
 .glass-card {
   width: 100%;
-  max-width: 320px;
-  height: 400px;
+  max-width: 340px;
+  height: 440px;
   background-color: color-mix(in srgb, var(--c-glass) 2%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
