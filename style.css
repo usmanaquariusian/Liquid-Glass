@@ -255,7 +255,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  padding: 200px 0 200px;
+  padding: 0px 0 200px;
   box-sizing: border-box;
 }
 
